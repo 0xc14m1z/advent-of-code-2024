@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "day:1": "ts-node ./1/day.ts"
+    "day:1": "ts-node ./1/day.ts",
+    "test": "vitest"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "ts-node": "^10.9.2",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "vitest": "2.1.6"
   }
 }
