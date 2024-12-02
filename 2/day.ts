@@ -4,8 +4,14 @@ async function run() {
   const input = await readInputFile("./2/input.txt");
   const reports = extractReports(input);
   const safeReportsCount = computeSafeReportsCount(reports);
+  const safeReportsWhenDampenedCount =
+    computeSafeReportsWhenDampenedCount(reports);
 
   console.log("Safe reports count:", safeReportsCount);
+  console.log(
+    "Safe reports (after dampening) count:",
+    safeReportsWhenDampenedCount
+  );
 }
 
 run();
@@ -56,4 +62,17 @@ export function isReportSafe(report: Report): boolean {
 
 export function computeSafeReportsCount(reports: Report[]): number {
   return reports.filter(isReportSafe).length;
+}
+
+export function isReportSafeWhenDampened(report: Report): boolean {
+  for (let i in report) {
+    const dampenedReport = report.filter((_, index) => index !== Number(i));
+    if (isReportSafe(dampenedReport)) return true;
+  }
+
+  return false;
+}
+
+export function computeSafeReportsWhenDampenedCount(reports: Report[]): number {
+  return reports.filter(isReportSafeWhenDampened).length;
 }
