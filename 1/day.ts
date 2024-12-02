@@ -1,7 +1,7 @@
-import FileSystem from "node:fs/promises";
+import { readInputFile } from "../utils";
 
 async function run() {
-  const input = await readInputFile();
+  const input = await readInputFile("./1/input.txt");
   const lists = sortLists(extractLists(input));
   const totalDistance = computeTotalDistance(lists);
   const similarityScore = computeTotalSimilarityScore(lists);
@@ -11,11 +11,6 @@ async function run() {
 }
 
 run();
-
-async function readInputFile(): Promise<string> {
-  const rawContent = await FileSystem.readFile("./1/input.txt");
-  return rawContent.toString();
-}
 
 export enum List {
   Left = 0,
