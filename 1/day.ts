@@ -1,4 +1,4 @@
-import { readInputFile } from "../utils";
+import { readInputFile, sum } from "../utils";
 
 async function run() {
   const input = await readInputFile("./1/input.txt");
@@ -48,10 +48,6 @@ export function sortLists(lists: Lists<string>): Lists<number> {
   const right = lists.map(([_, right]) => Number(right)).toSorted(asc);
 
   return lists.map((_, index) => [left[index], right[index]]);
-}
-
-function sum(values: number[]): number {
-  return values.reduce((total, value) => total + value, 0);
 }
 
 export function computeDistances(lists: Lists<number>): number[] {
