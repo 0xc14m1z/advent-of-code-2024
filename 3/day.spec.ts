@@ -1,18 +1,25 @@
 import { describe, expect, it, test } from "vitest";
 import {
+  applyEnablers,
   computeTotalInstructionsSum,
   execInstruction,
   parseInstructions,
+  parseInstructionsWithEnablers,
 } from "./day";
 
 describe("day 3", () => {
   describe("solution", () => {
     describe("computeTotalInstructionsSum", () => {
-      it("executes all the given instructions and sum up the results", () => {
-        const instructions = ["mul(2,4)", "mul(5,5)", "mul(11,8)", "mul(8,5)"];
-        const result = computeTotalInstructionsSum(instructions);
-        expect(result).toBe(161);
-      });
+      test.each<[instructions: string[], expectedResult: number]>([
+        [["mul(2,4)", "mul(5,5)", "mul(11,8)", "mul(8,5)"], 161],
+        [["mul(2,4)", "mul(8,5)"], 48],
+      ])(
+        "exectures the instructions %o and sums up the result to %i",
+        (instructions: string[], expectedResult: number) => {
+          const result = computeTotalInstructionsSum(instructions);
+          expect(result).toBe(expectedResult);
+        }
+      );
     });
   });
 
@@ -43,6 +50,39 @@ describe("day 3", () => {
           expect(execInstruction(instruction)).toBe(expectedResult);
         }
       );
+    });
+
+    describe("parseInstructionsWithEnablers", () => {
+      it("can extract valid instructions from memory including dos and donts", () => {
+        const input =
+          "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
+        const instructions = parseInstructionsWithEnablers(input);
+        expect(instructions).toEqual([
+          "mul(2,4)",
+          "don't()",
+          "mul(5,5)",
+          "mul(11,8)",
+          "do()",
+          "mul(8,5)",
+        ]);
+      });
+    });
+
+    describe("applyEnablers", () => {
+      it("filters disabled instructions and leave enabled ones", () => {
+        const instructions = [
+          "mul(2,4)",
+          "don't()",
+          "mul(5,5)",
+          "mul(11,8)",
+          "do()",
+          "mul(8,5)",
+        ];
+
+        const runnableInstructions = applyEnablers(instructions);
+
+        expect(runnableInstructions).toEqual(["mul(2,4)", "mul(8,5)"]);
+      });
     });
   });
 });
