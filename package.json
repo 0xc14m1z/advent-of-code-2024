@@ -5,6 +5,7 @@
   "scripts": {
     "day:1": "ts-node ./1/day.ts",
     "day:2": "ts-node ./2/day.ts",
+    "day:3": "ts-node ./3/day.ts",
     "test": "vitest"
   },
   "author": "",
